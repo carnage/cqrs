@@ -1,5 +1,7 @@
 # cqrs
-Cqrs module for Zf2
+Cqrs module for ZF2 taking heavy inspiration from broardway https://github.com/qandidate-labs/broadway designed to fit in with ZF2's design patterns.
+
+This module is a work in progress, check back later.
 
 # Licence
 
