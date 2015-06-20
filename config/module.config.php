@@ -1,19 +1,30 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * CQRS Module for Zend Framework V2.x
  *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * Config file.
+ *
+ * @link      https://github.com/carnage/cqrs for the canonical source repository
+ * @license   http://blog.mongodb.org/post/103832439/the-agpl AGPL
  */
+use Carnage\Cqrs\Command;
+use Carnage\Cqrs\Event;
 
+/**
+ * CQRS Module for Zend Framework V2.x
+ *
+ * Config file.
+ *
+ * @link      https://github.com/carnage/cqrs for the canonical source repository
+ * @license   http://blog.mongodb.org/post/103832439/the-agpl AGPL
+ */
 return array(
     'service_manager' => array(
         'factories' => [
-            \Carnage\Cqrs\Command\Handler\PluginManager::class => \Carnage\Cqrs\Command\Handler\PluginManagerFactory::class,
-            \Carnage\Cqrs\Command\Bus\LazyBus::class => \Carnage\Cqrs\Command\Bus\LazyBusFactory::class,
-            \Carnage\Cqrs\Event\Listener\PluginManager::class => \Carnage\Cqrs\Event\Listener\PluginManagerFactory::class,
-            \Carnage\Cqrs\Event\Manager\LazyEventManager::class => \Carnage\Cqrs\Event\Manager\LazyEventManagerFactory::class,
+            Command\Handler\PluginManager::class  => Command\Handler\PluginManagerFactory::class,
+            Command\Bus\LazyBus::class            => Command\Bus\LazyBusFactory::class,
+            Event\Listener\PluginManager::class   => Event\Listener\PluginManagerFactory::class,
+            Event\Manager\LazyEventManager::class => Event\Manager\LazyEventManagerFactory::class,
         ]
     ),
     'command_handlers' => [
