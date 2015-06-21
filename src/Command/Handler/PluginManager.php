@@ -2,24 +2,11 @@
 
 namespace Carnage\Cqrs\Command\Handler;
 
-use Carnage\Cqrs\Event\Manager\EventManagerAwareInterface;
-use Carnage\Cqrs\Event\Manager\LazyEventManager;
 use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception;
 
 class PluginManager extends AbstractPluginManager
 {
-    public function __construct(ConfigInterface $configuration = null)
-    {
-        parent::__construct($configuration);
-        $this->addInitializer(function ($instance) {
-            if ($instance instanceof EventManagerAwareInterface) {
-                $instance->setEventManager($this->getServiceLocator()->get(LazyEventManager::class));
-            }
-        });
-    }
-
     /**
      * Validate the plugin
      *
