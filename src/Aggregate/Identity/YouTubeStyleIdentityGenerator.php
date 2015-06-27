@@ -1,7 +1,26 @@
 <?php
+
+namespace Carnage\Cqrs\Aggregate\Identity;
+
+use RandomLib\Factory;
+
 /**
- * Created by PhpStorm.
- * User: imhotek
- * Date: 27/06/15
- * Time: 15:48
- */ 
+ * Class YouTubeStyleIdentityGenerator
+ * @package Carnage\Cqrs\Aggregate\Identity
+ *
+ * Generates a youtube style id matching regex: [0-9A-Za-z-_]{11}
+ */
+class YouTubeStyleIdentityGenerator implements GeneratorInterface
+{
+    private $random;
+
+    public function __construct()
+    {
+        $this->random = (new Factory())->getMediumStrengthGenerator();
+    }
+
+    public function generateIdentity()
+    {
+        return rtrim(strtr(base64_encode($this->random->generate(22)), '+/', '-_'), '=');
+    }
+}

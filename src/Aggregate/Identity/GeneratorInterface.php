@@ -1,7 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: imhotek
- * Date: 27/06/15
- * Time: 15:47
- */ 
+
+namespace Carnage\Cqrs\Aggregate\Identity;
+
+interface GeneratorInterface
+{
+    public function generateIdentity();
+}

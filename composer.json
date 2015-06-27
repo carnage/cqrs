@@ -5,6 +5,7 @@
     "require": {
         "php": ">=5.5",
         "zendframework/zendframework": "~2.4.0",
+        "ircmaxell/random-lib": "^1.0.0",
         "doctrine/dbal": "^2.5.1"
     },
     "autoload": {
