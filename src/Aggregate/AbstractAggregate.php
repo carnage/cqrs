@@ -30,9 +30,10 @@ abstract class AbstractAggregate implements AggregateInterface
         }
 
         $this->$method($event);
-        $this->version++;
+
         if ($new) {
             $this->events[$this->version] = $event;
+            $this->version++;
         }
     }
 
