@@ -1,11 +1,11 @@
 <?php
 
-namespace Carnage\Cqrs\Event\Listener;
+namespace Carnage\Cqrs\Event\Projection;
 
 use Carnage\Cqrs\Event\EventInterface;
 use Carnage\Cqrs\Event\Subscriber\EventSubscriberInterface;
 
-abstract class AbstractEventListener implements EventSubscriberInterface
+abstract class AbstractProjection implements EventSubscriberInterface
 {
     public function handle(EventInterface $command)
     {

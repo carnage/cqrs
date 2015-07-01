@@ -4,7 +4,7 @@ namespace Carnage\Cqrs\Event\Manager;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Carnage\Cqrs\Event\Listener\PluginManager;
+use Carnage\Cqrs\Event\Subscriber\PluginManager;
 
 class LazyEventManagerFactory implements FactoryInterface
 {

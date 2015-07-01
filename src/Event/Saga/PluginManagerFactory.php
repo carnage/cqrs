@@ -1,6 +1,6 @@
 <?php
 
-namespace Carnage\Cqrs\Event\Listener;
+namespace Carnage\Cqrs\Event\Saga;
 
 use Zend\Mvc\Service\AbstractPluginManagerFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -15,7 +15,7 @@ class PluginManagerFactory extends AbstractPluginManagerFactory
     {
         $service = parent::createService($serviceLocator);
 
-        $handlers = $serviceLocator->get('Config')['event_listeners'];
+        $handlers = $serviceLocator->get('Config')['sagas'];
         $config = new ServiceManagerConfig($handlers);
         $config->configureServiceManager($service);
 

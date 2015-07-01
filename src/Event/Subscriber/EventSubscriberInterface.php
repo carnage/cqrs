@@ -1,9 +1,9 @@
 <?php
-namespace Carnage\Cqrs\Event\Listener;
+namespace Carnage\Cqrs\Event\Subscriber;
 
 use Carnage\Cqrs\Event\EventInterface;
 
-interface EventListenerInterface
+interface EventSubscriberInterface
 {
     public function handle(EventInterface $event);
 }

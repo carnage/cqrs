@@ -10,3 +10,14 @@ Licenced under AGPL - the source code release clause ONLY applies to modificatio
 # TODO
 
 * upgrade to zf2.5 only pull in bits that are required (eg exclude zend db in favor of doctrine dbal)
+
+
+# NOTES
+
+Event Namespace contains 5 things:
+
+- Event Manager: for classes/code that handle the triggered events and hand off to
+- Event Subscribers: base classes/code for objects that handle (listen to) events
+- Event Listeners: basic event listening
+- Projections: event listeners which update read models (projections); will contain code to support this function eventually
+- Sagas: event listeners which handle business processes as state machines; will contain code to support creation of sagas

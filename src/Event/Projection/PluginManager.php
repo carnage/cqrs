@@ -1,6 +1,6 @@
 <?php
 
-namespace Carnage\Cqrs\Event\Listener;
+namespace Carnage\Cqrs\Event\Projection;
 
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception;

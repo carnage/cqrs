@@ -1,13 +1,14 @@
 <?php
 
-namespace Carnage\Cqrs\Event\Listener;
+namespace Carnage\Cqrs\Event\Subscriber;
 
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception;
 
 /**
  * Class PluginManager
- * @package Carnage\Cqrs\Event\Listener
+ * @package Carnage\Cqrs\Event\Subscriber
+ * @method EventSubscriberInterface get($service)
  */
 class PluginManager extends AbstractPluginManager
 {
@@ -23,7 +24,11 @@ class PluginManager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        return;
+        if ($plugin instanceof EventSubscriberInterface) {
+            return;
+        }
+
+        throw new Exception\RuntimeException('Event listener doesn\'t implement event listener interface');
     }
 
 }

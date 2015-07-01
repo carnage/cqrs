@@ -1,6 +1,7 @@
 <?php
 namespace Carnage\Cqrs\Event\Manager;
 
+use Carnage\Cqrs\Event\EventInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class LazyEventManager implements EventManagerInterface
@@ -14,7 +15,7 @@ class LazyEventManager implements EventManagerInterface
         $this->subscriptions = $subscriptionConfig;
     }
 
-    public function trigger($event)
+    public function trigger(EventInterface $event)
     {
         $eventClass = get_class($event);
         if (isset($this->subscriptions[$eventClass])) {
