@@ -1,5 +1,5 @@
 <?php
-namespace Carnage\Cqrs\Persistence;
+namespace Carnage\Cqrs\Persistence\EventStore;
 
 interface EventStoreInterface
 {
