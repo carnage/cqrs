@@ -18,7 +18,8 @@ class EventListenerAbstractFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $serviceLocator->get(EventListenerManager::class)->has($requestedName);
+        $mainServiceLocator = $serviceLocator->getServiceLocator();
+        return $mainServiceLocator->get(EventListenerManager::class)->has($requestedName);
     }
 
     /**
@@ -31,6 +32,7 @@ class EventListenerAbstractFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $serviceLocator->get(EventListenerManager::class)->get($requestedName);
+        $mainServiceLocator = $serviceLocator->getServiceLocator();
+        return $mainServiceLocator->get(EventListenerManager::class)->get($requestedName);
     }
 }

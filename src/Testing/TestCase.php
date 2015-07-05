@@ -22,16 +22,19 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        if ($this->eventStore === null || $this->commandBus === null) {
-            $this->eventStore = new EventStore(new InMemoryEventStore());
+        $serviceManager = Bootstrap::getServiceManager();
+
+        if (!($serviceManager->get(EventStoreInterface::class) instanceof EventStore)) {
+            $eventStore = new EventStore(new InMemoryEventStore());
 
             /** @var ServiceLocatorInterface $serviceManager */
-            $serviceManager = Bootstrap::getServiceManager();
             $serviceManager->setAllowOverride(true);
-            $serviceManager->setService(EventStoreInterface::class, $this->eventStore);
+            $serviceManager->setService(EventStoreInterface::class, $eventStore);
 
-            $this->commandBus = $serviceManager->get(CommandBusInterface::class);
         }
+
+        $this->eventStore = $serviceManager->get(EventStoreInterface::class);
+        $this->commandBus = $serviceManager->get(CommandBusInterface::class);
 
         parent::setup();
     }
@@ -40,8 +43,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         $callback = function ($item) use ($aggregateType, $id, $eventType) {
             return (
-                $item['aggregateType'] === $aggregateType &&
-                $item['id'] === $id &&
+                ($item['aggregateType'] === $aggregateType || $aggregateType === null) &&
+                ($item['id'] === $id || $id === null) &&
                 $item['event'] instanceof $eventType
             );
         };

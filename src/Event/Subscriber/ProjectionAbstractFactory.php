@@ -18,7 +18,8 @@ class ProjectionAbstractFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $serviceLocator->get(ProjectionListenerManager::class)->has($requestedName);
+        $mainServiceLocator = $serviceLocator->getServiceLocator();
+        return $mainServiceLocator->get(ProjectionListenerManager::class)->has($requestedName);
     }
 
     /**
@@ -31,6 +32,7 @@ class ProjectionAbstractFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $serviceLocator->get(ProjectionListenerManager::class)->get($requestedName);
+        $mainServiceLocator = $serviceLocator->getServiceLocator();
+        return $mainServiceLocator->get(ProjectionListenerManager::class)->get($requestedName);
     }
 }

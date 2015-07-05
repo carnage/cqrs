@@ -18,7 +18,8 @@ class SagaAbstractFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $serviceLocator->get(SagaListenerManager::class)->has($requestedName);
+        $mainServiceLocator = $serviceLocator->getServiceLocator();
+        return $mainServiceLocator->get(SagaListenerManager::class)->has($requestedName);
     }
 
     /**
@@ -31,6 +32,7 @@ class SagaAbstractFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $serviceLocator->get(SagaListenerManager::class)->get($requestedName);
+        $mainServiceLocator = $serviceLocator->getServiceLocator();
+        return $mainServiceLocator->get(SagaListenerManager::class)->get($requestedName);
     }
 }
