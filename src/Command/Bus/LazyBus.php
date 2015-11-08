@@ -24,5 +24,14 @@ class LazyBus implements CommandBusInterface
                 $this->serviceLocator->get($handler)->handle($command);
             }
         }
+
+        $interfaces = class_implements($command);
+        foreach ($interfaces as $interface) {
+            if (isset($this->subscriptions[$interface])) {
+                foreach ((array) $this->subscriptions[$interface] as $handler) {
+                    $this->serviceLocator->get($handler)->handle($command);
+                }
+            }
+        }
     }
 }

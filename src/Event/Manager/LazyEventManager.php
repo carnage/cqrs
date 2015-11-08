@@ -23,5 +23,14 @@ class LazyEventManager implements EventManagerInterface
                 $this->serviceLocator->get($handler)->handle($event);
             }
         }
+
+        $interfaces = class_implements($event);
+        foreach ($interfaces as $interface) {
+            if (isset($this->subscriptions[$interface])) {
+                foreach ((array) $this->subscriptions[$interface] as $handler) {
+                    $this->serviceLocator->get($handler)->handle($event);
+                }
+            }
+        }
     }
 }
