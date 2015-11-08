@@ -45,16 +45,29 @@ return [
     'command_subscriptions' => [
     ],
     'event_listeners' => [
+        'factories' => [
+            \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class =>
+                \Carnage\Cqrs\Mvc\Controller\Plugin\EventsFactory::class
+        ]
     ],
     'projections' => [
     ],
     'sagas' => [
     ],
     'domain_event_subscriptions' => [
+        Event\EventInterface::class => \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class
     ],
     'repositories' => [
         'abstract_factories' => [
             Persistence\Repository\RepositoryAbstractFactory::class
+        ]
+    ],
+    'controller_plugins' => [
+        'invokables' => [
+            \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class => \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class
+        ],
+        'aliases' => [
+            'Events' => \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class
         ]
     ]
 ];
