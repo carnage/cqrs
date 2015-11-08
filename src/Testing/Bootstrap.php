@@ -14,7 +14,11 @@ class Bootstrap
     public static function init($modules)
     {
         $config = [
-            'module_listener_options' => [],
+            'module_listener_options' => [
+                'config_glob_paths' => [
+                    'config/autoload/{,*.}{test,testing}.php',
+                ],
+            ],
             'modules' => $modules,
         ];
 
