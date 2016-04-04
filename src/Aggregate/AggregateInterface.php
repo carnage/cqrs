@@ -2,11 +2,12 @@
 
 namespace Carnage\Cqrs\Aggregate;
 
+use Carnage\Cqrs\Event\DomainMessage;
 use Carnage\Cqrs\Event\EventInterface;
 
 interface AggregateInterface
 {
-    public function restoreState(array $events);
+    public static function fromEvents(DomainMessage ...$events);
 
     public function apply(EventInterface $event);
 
@@ -15,4 +16,6 @@ interface AggregateInterface
     public function getId();
 
     public function getVersion();
+
+    public function committed();
 } 

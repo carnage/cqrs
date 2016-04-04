@@ -23,10 +23,8 @@ class Repository implements RepositoryInterface
     {
         $events = $this->eventStore->load($this->aggregateClassName, $id);
         $aggregateClassName = $this->aggregateClassName;
-        /** @var AggregateInterface $aggregate */
-        $aggregate = new $aggregateClassName($id);
-
-        $aggregate->restoreState($events);
+        /** @var AggregateInterface $aggregateClassName */
+        $aggregate = $aggregateClassName::fromEvents(...$events);
 
         return $aggregate;
     }
@@ -35,9 +33,10 @@ class Repository implements RepositoryInterface
     {
         $uncommittedEvents = $aggregate->getUncommittedEvents();
         $this->eventStore->save($this->aggregateClassName, $aggregate->getId(), $uncommittedEvents);
+        $aggregate->committed();
 
         foreach ($uncommittedEvents as $event) {
-            $this->eventManager->trigger($event);
+            $this->eventManager->trigger($event->getEvent());
         }
     }
 }

@@ -1,11 +1,12 @@
 <?php
 namespace Carnage\Cqrs\Aggregate;
 
+use Carnage\Cqrs\Event\DomainMessage;
 use Carnage\Cqrs\Event\EventInterface;
 
 abstract class AbstractAggregate implements AggregateInterface
 {
-    private $events = [];
+    private $uncommittedEvents = [];
     private $version = 0;
 
     private function getApplyMethod(EventInterface $event)
@@ -14,35 +15,51 @@ abstract class AbstractAggregate implements AggregateInterface
         return 'apply' . end($classParts);
     }
 
-    public function restoreState(array $events)
+    /**
+     * @param DomainMessage[] $events
+     * @return static
+     */
+    public static function fromEvents(DomainMessage ...$events)
     {
+        $instance = new static();
+
         foreach ($events as $event) {
-            $this->apply($event, false);
+            $instance->apply($event->getEvent(), false);
         }
+
+        return $instance;
     }
 
     public function apply(EventInterface $event, $new = true)
     {
+        $this->version++;
+
+        if ($new) {
+            $this->uncommittedEvents[$this->version] = DomainMessage::recordEvent(
+                static::class,
+                $this->getId(),
+                $this->version,
+                $event
+            );
+        }
+
         $method = $this->getApplyMethod($event);
 
-        if (! method_exists($this, $method)) {
+        if (!method_exists($this, $method)) {
             return;
         }
 
         $this->$method($event);
-
-        if ($new) {
-            $this->events[$this->version] = $event;
-            $this->version++;
-        }
     }
 
     public function getUncommittedEvents()
     {
-        $events = $this->events;
-        $this->events = [];
+        return $this->uncommittedEvents;
+    }
 
-        return $events;
+    public function committed()
+    {
+        $this->uncommittedEvents = [];
     }
 
     public function getVersion()

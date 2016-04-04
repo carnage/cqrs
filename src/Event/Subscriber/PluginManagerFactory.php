@@ -17,7 +17,6 @@ class PluginManagerFactory extends AbstractPluginManagerFactory
 
         $service->addAbstractFactory(new EventListenerAbstractFactory());
         $service->addAbstractFactory(new ProjectionAbstractFactory());
-        $service->addAbstractFactory(new SagaAbstractFactory());
 
         return $service;
     }
