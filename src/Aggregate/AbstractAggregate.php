@@ -34,6 +34,12 @@ abstract class AbstractAggregate implements AggregateInterface
     {
         $this->version++;
 
+        $method = $this->getApplyMethod($event);
+
+        if (method_exists($this, $method)) {
+            $this->$method($event);
+        }
+
         if ($new) {
             $this->uncommittedEvents[$this->version] = DomainMessage::recordEvent(
                 static::class,
@@ -42,14 +48,6 @@ abstract class AbstractAggregate implements AggregateInterface
                 $event
             );
         }
-
-        $method = $this->getApplyMethod($event);
-
-        if (!method_exists($this, $method)) {
-            return;
-        }
-
-        $this->$method($event);
     }
 
     public function getUncommittedEvents()
