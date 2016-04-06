@@ -65,7 +65,7 @@ class Repository implements RepositoryInterface
      */
     public function save(AggregateInterface $aggregate)
     {
-        $uncommittedEvents = $this->applyMetadata($aggregate->getUncommittedEvents());
+        $uncommittedEvents = $this->applyMetadata(...$aggregate->getUncommittedEvents());
         $this->eventStore->save($this->aggregateClassName, $aggregate->getId(), $uncommittedEvents);
         $aggregate->committed();
 

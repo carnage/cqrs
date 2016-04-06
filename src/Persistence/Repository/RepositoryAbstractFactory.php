@@ -52,10 +52,12 @@ class RepositoryAbstractFactory implements AbstractFactoryInterface
     private function getMetadataProviders(ServiceLocatorInterface $serviceLocator)
     {
         if ($this->metadataProviders === null) {
+            $this->metadataProviders = [];
             $config = $serviceLocator->get('Config')['domain_event_metadata'];
             $metadataManager = $serviceLocator->get(MetadataProviderManager::class);
+
             foreach ($config as $metadataProvider) {
-                $this->metadataProviders = $metadataManager->get($metadataProvider);
+                $this->metadataProviders[] = $metadataManager->get($metadataProvider);
             }
         }
 
