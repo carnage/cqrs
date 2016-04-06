@@ -2,4 +2,6 @@
 
 namespace Carnage\Cqrs\Event;
 
-interface EventInterface {}
+use Carnage\Cqrs\MessageBus\MessageInterface;
+
+interface EventInterface extends MessageInterface {}
