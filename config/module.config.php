@@ -39,7 +39,7 @@ return [
         ]
     ],
     'log' => [
-        'Log\\CommandHandlerLog' => [
+        'Log\\CommandBusLog' => [
             'writers' => [
                 [
                     'name' => 'noop',
@@ -100,5 +100,11 @@ return [
         'aliases' => [
             'Events' => \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class
         ]
+    ],
+    'metadata_providers' => [
+
+    ],
+    'domain_event_metadata' => [
+
     ]
 ];
