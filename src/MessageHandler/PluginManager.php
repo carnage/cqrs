@@ -1,14 +1,10 @@
 <?php
 
-namespace Carnage\Cqrs\Event\Projection;
+namespace Carnage\Cqrs\MessageHandler;
 
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception;
 
-/**
- * Class PluginManager
- * @package Carnage\Cqrs\Event\Listener
- */
 class PluginManager extends AbstractPluginManager
 {
     /**
@@ -23,7 +19,11 @@ class PluginManager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        return;
+        if ($plugin instanceof MessageHandlerInterface) {
+            return;
+        }
+
+        throw new Exception\RuntimeException('Message handler doesn\'t implement message handler interface');
     }
 
 }

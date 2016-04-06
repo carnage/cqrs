@@ -2,25 +2,13 @@
 
 namespace Carnage\Cqrs\Event\Projection;
 
-use Carnage\Cqrs\Event\EventInterface;
-use Carnage\Cqrs\Event\Subscriber\EventSubscriberInterface;
+use Carnage\Cqrs\MessageHandler\AbstractMethodNameMessageHandler;
 
-abstract class AbstractProjection implements EventSubscriberInterface
+/**
+ * Class AbstractProjection
+ * @package Carnage\Cqrs\Event\Projection
+ * @deprecated
+ */
+abstract class AbstractProjection extends AbstractMethodNameMessageHandler
 {
-    public function handle(EventInterface $command)
-    {
-        $method = $this->getHandleMethod($command);
-
-        if (! method_exists($this, $method)) {
-            return;
-        }
-
-        $this->$method($command);
-    }
-
-    private function getHandleMethod(EventInterface $command)
-    {
-        $classParts = explode('\\', get_class($command));
-        return 'handle' . end($classParts);
-    }
 }

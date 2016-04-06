@@ -2,25 +2,13 @@
 
 namespace Carnage\Cqrs\Event\Listener;
 
-use Carnage\Cqrs\Event\EventInterface;
-use Carnage\Cqrs\Event\Subscriber\EventSubscriberInterface;
+use Carnage\Cqrs\MessageHandler\AbstractMethodNameMessageHandler;
 
-abstract class AbstractEventListener implements EventSubscriberInterface
+/**
+ * Class AbstractEventListener
+ * @package Carnage\Cqrs\Event\Listener
+ * @deprecated
+ */
+abstract class AbstractEventListener extends AbstractMethodNameMessageHandler
 {
-    public function handle(EventInterface $command)
-    {
-        $method = $this->getHandleMethod($command);
-
-        if (! method_exists($this, $method)) {
-            return;
-        }
-
-        $this->$method($command);
-    }
-
-    private function getHandleMethod(EventInterface $command)
-    {
-        $classParts = explode('\\', get_class($command));
-        return 'handle' . end($classParts);
-    }
 }

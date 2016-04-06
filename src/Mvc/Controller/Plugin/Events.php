@@ -3,10 +3,11 @@
 namespace Carnage\Cqrs\Mvc\Controller\Plugin;
 
 use Carnage\Cqrs\Event\EventInterface;
-use Carnage\Cqrs\Event\Subscriber\EventSubscriberInterface;
+use Carnage\Cqrs\MessageBus\MessageInterface;
+use Carnage\Cqrs\MessageHandler\MessageHandlerInterface;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
-class Events extends AbstractPlugin implements EventSubscriberInterface
+class Events extends AbstractPlugin implements MessageHandlerInterface
 {
     private $events;
     private $eventsByType;
@@ -27,7 +28,7 @@ class Events extends AbstractPlugin implements EventSubscriberInterface
         return $this->eventsByType[$eventType];
     }
 
-    public function handle(EventInterface $event)
+    public function handle(MessageInterface $event)
     {
         $this->events[] = $event;
         $this->eventsByType[get_class($event)][] = $event;

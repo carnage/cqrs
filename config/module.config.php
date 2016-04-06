@@ -10,6 +10,7 @@
 use Carnage\Cqrs\Command;
 use Carnage\Cqrs\Event;
 use Carnage\Cqrs\Persistence;
+use Carnage\Cqrs\MessageHandler;
 
 /**
  * CQRS Module for Zend Framework V2.x
@@ -25,11 +26,11 @@ return [
             Persistence\EventStore\InMemoryEventStore::class => Persistence\EventStore\InMemoryEventStore::class
         ],
         'factories' => [
-            Command\Handler\PluginManager::class => Command\Handler\PluginManagerFactory::class,
+            'CommandHandlerManager' => MessageHandler\PluginManagerFactory::class,
             Command\CommandBusInterface::class => Command\LazyCommandBusFactory::class,
-            Event\Listener\PluginManager::class => Event\Listener\PluginManagerFactory::class,
-            Event\Projection\PluginManager::class => Event\Projection\PluginManagerFactory::class,
-            Event\Subscriber\PluginManager::class => Event\Subscriber\PluginManagerFactory::class,
+            'EventListenerManager' => MessageHandler\PluginManagerFactory::class,
+            'ProjectionManager' => MessageHandler\PluginManagerFactory::class,
+            'EventSubscriberManager' => MessageHandler\PluginManagerFactory::class,
             Event\EventManagerInterface::class => Event\LazyEventManagerFactory::class,
             Persistence\Repository\PluginManager::class => Persistence\Repository\PluginManagerFactory::class
         ],
@@ -37,6 +38,25 @@ return [
             Persistence\EventStore\EventStoreInterface::class => Persistence\EventStore\InMemoryEventStore::class
         ]
     ],
+
+    'message_handlers' => [
+        'CommandHandlerManager' => [
+            'config_key' => 'command_handlers'
+        ],
+        'ProjectionManager' => [
+            'config_key' => 'projections'
+        ],
+        'EventListenerManager' => [
+            'config_key' => 'event_listeners'
+        ],
+        'EventSubscriberManager' => [
+            'aggregate_managers' => [
+                'ProjectionManager',
+                'EventListenerManager'
+            ]
+        ]
+    ],
+
     'command_handlers' => [
     ],
     'command_subscriptions' => [
