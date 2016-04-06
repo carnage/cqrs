@@ -18,7 +18,8 @@ class LazyEventManagerFactory implements FactoryInterface
     {
         return new LazyMessageBus(
             $serviceLocator->get('EventSubscriberManager'),
-            $serviceLocator->get('Config')['domain_event_subscriptions']
+            $serviceLocator->get('Config')['domain_event_subscriptions'],
+            $serviceLocator->get('Log\\EventManagerLog')
         );
     }
 }

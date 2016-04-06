@@ -38,10 +38,26 @@ return [
             Persistence\EventStore\EventStoreInterface::class => Persistence\EventStore\InMemoryEventStore::class
         ]
     ],
+    'log' => [
+        'Log\\CommandHandlerLog' => [
+            'writers' => [
+                [
+                    'name' => 'noop',
+                ],
+            ],
+        ],
+        'Log\\EventManagerLog' => [
+            'writers' => [
+                [
+                    'name' => 'noop',
+                ],
+            ],
+        ],
+    ],
 
     'message_handlers' => [
         'CommandHandlerManager' => [
-            'config_key' => 'command_handlers'
+            'config_key' => 'command_handlers',
         ],
         'ProjectionManager' => [
             'config_key' => 'projections'

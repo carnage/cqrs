@@ -18,7 +18,8 @@ class LazyCommandBusFactory implements FactoryInterface
     {
         return new LazyMessageBus(
             $serviceLocator->get('CommandHandlerManager'),
-            $serviceLocator->get('Config')['command_subscriptions']
+            $serviceLocator->get('Config')['command_subscriptions'],
+            $serviceLocator->get('Log\\CommandBusLog')
         );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Carnage\Cqrs\MessageHandler;
 
+use Zend\Log\LoggerAwareInterface;
 use Zend\Mvc\Service\AbstractPluginManagerFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\Exception;
@@ -29,6 +30,15 @@ class PluginManagerFactory extends AbstractPluginManagerFactory
             foreach ($pluginManagerConfig['aggregate_managers'] as $aggregate_manager) {
                 $service->addAbstractFactory(new AggregatingAbstractFactory($aggregate_manager));
             }
+        }
+
+        if (isset($pluginManagerConfig['logger'])) {
+            $logger = $pluginManagerConfig['logger'];
+            $service->addInitializer(function ($instance) use ($serviceLocator, $logger) {
+                if ($instance instanceof LoggerAwareInterface) {
+                    $instance->setLogger($serviceLocator->get($logger));
+                }
+            });
         }
 
         return $service;
