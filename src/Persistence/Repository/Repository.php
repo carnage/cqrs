@@ -3,7 +3,7 @@
 namespace Carnage\Cqrs\Persistence\Repository;
 
 use Carnage\Cqrs\Aggregate\AggregateInterface;
-use Carnage\Cqrs\Event\EventManagerInterface;
+use Carnage\Cqrs\MessageBus\MessageBusInterface;
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
 
 class Repository implements RepositoryInterface
@@ -12,7 +12,7 @@ class Repository implements RepositoryInterface
     private $aggregateClassName;
     private $eventManager;
 
-    public function __construct($aggregateClassName, EventStoreInterface $eventStore, EventManagerInterface $eventManager)
+    public function __construct($aggregateClassName, EventStoreInterface $eventStore, MessageBusInterface $eventManager)
     {
         $this->aggregateClassName = $aggregateClassName;
         $this->eventStore = $eventStore;
