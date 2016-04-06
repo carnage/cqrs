@@ -25,17 +25,15 @@ return [
             Persistence\EventStore\InMemoryEventStore::class => Persistence\EventStore\InMemoryEventStore::class
         ],
         'factories' => [
-            Command\Handler\PluginManager::class  => Command\Handler\PluginManagerFactory::class,
-            Command\Bus\LazyBus::class            => Command\Bus\LazyBusFactory::class,
-            Event\Listener\PluginManager::class   => Event\Listener\PluginManagerFactory::class,
-            Event\Projection\PluginManager::class   => Event\Projection\PluginManagerFactory::class,
-            Event\Subscriber\PluginManager::class   => Event\Subscriber\PluginManagerFactory::class,
-            Event\Manager\LazyEventManager::class => Event\Manager\LazyEventManagerFactory::class,
+            Command\Handler\PluginManager::class => Command\Handler\PluginManagerFactory::class,
+            Command\CommandBusInterface::class => Command\LazyCommandBusFactory::class,
+            Event\Listener\PluginManager::class => Event\Listener\PluginManagerFactory::class,
+            Event\Projection\PluginManager::class => Event\Projection\PluginManagerFactory::class,
+            Event\Subscriber\PluginManager::class => Event\Subscriber\PluginManagerFactory::class,
+            Event\EventManagerInterface::class => Event\LazyEventManagerFactory::class,
             Persistence\Repository\PluginManager::class => Persistence\Repository\PluginManagerFactory::class
         ],
         'aliases' => [
-            Command\Bus\CommandBusInterface::class => Command\Bus\LazyBus::class,
-            Event\Manager\EventManagerInterface::class => Event\Manager\LazyEventManager::class,
             Persistence\EventStore\EventStoreInterface::class => Persistence\EventStore\InMemoryEventStore::class
         ]
     ],

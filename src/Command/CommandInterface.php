@@ -2,4 +2,6 @@
 
 namespace Carnage\Cqrs\Command;
 
-interface CommandInterface {}
+use Carnage\Cqrs\MessageBus\MessageInterface;
+
+interface CommandInterface extends MessageInterface {}

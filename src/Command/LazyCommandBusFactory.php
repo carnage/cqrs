@@ -1,12 +1,13 @@
 <?php
 
-namespace Carnage\Cqrs\Command\Bus;
+namespace Carnage\Cqrs\Command;
 
 use Carnage\Cqrs\Command\Handler\PluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Carnage\Cqrs\MessageBus\LazyMessageBus;
 
-class LazyBusFactory implements FactoryInterface
+class LazyCommandBusFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -16,7 +17,7 @@ class LazyBusFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new LazyBus(
+        return new LazyMessageBus(
             $serviceLocator->get(PluginManager::class),
             $serviceLocator->get('Config')['command_subscriptions']
         );

@@ -3,7 +3,7 @@
 namespace Carnage\Cqrs\Persistence\Repository;
 
 use Carnage\Cqrs\Aggregate\AggregateInterface;
-use Carnage\Cqrs\Event\Manager\EventManagerInterface;
+use Carnage\Cqrs\Event\EventManagerInterface;
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

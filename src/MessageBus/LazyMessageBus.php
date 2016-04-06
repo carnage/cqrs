@@ -1,10 +1,11 @@
 <?php
-namespace Carnage\Cqrs\Event\Manager;
 
-use Carnage\Cqrs\Event\EventInterface;
+namespace Carnage\Cqrs\MessageBus;
+
+use Carnage\Cqrs\Command\CommandInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class LazyEventManager implements EventManagerInterface
+class LazyMessageBus implements MessageBusInterface
 {
     private $serviceLocator;
     private $subscriptions;
@@ -15,20 +16,20 @@ class LazyEventManager implements EventManagerInterface
         $this->subscriptions = $subscriptionConfig;
     }
 
-    public function trigger(EventInterface $event)
+    public function dispatch(MessageInterface $message)
     {
-        $eventClass = get_class($event);
-        if (isset($this->subscriptions[$eventClass])) {
-            foreach ((array) $this->subscriptions[$eventClass] as $handler) {
-                $this->serviceLocator->get($handler)->handle($event);
+        $messageClass = get_class($message);
+        if (isset($this->subscriptions[$messageClass])) {
+            foreach ((array) $this->subscriptions[$messageClass] as $handler) {
+                $this->serviceLocator->get($handler)->handle($message);
             }
         }
 
-        $interfaces = class_implements($event);
+        $interfaces = class_implements($message);
         foreach ($interfaces as $interface) {
             if (isset($this->subscriptions[$interface])) {
                 foreach ((array) $this->subscriptions[$interface] as $handler) {
-                    $this->serviceLocator->get($handler)->handle($event);
+                    $this->serviceLocator->get($handler)->handle($message);
                 }
             }
         }

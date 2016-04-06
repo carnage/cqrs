@@ -2,7 +2,7 @@
 
 namespace Carnage\Cqrs\Testing;
 
-use Carnage\Cqrs\Command\Bus\CommandBusInterface;
+use Carnage\Cqrs\Command\CommandBusInterface;
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
 use Carnage\Cqrs\Persistence\EventStore\InMemoryEventStore;
 use Doctrine\Common\Collections\ArrayCollection;
