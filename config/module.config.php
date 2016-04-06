@@ -32,7 +32,8 @@ return [
             'ProjectionManager' => MessageHandler\PluginManagerFactory::class,
             'EventSubscriberManager' => MessageHandler\PluginManagerFactory::class,
             Event\EventManagerInterface::class => Event\LazyEventManagerFactory::class,
-            Persistence\Repository\PluginManager::class => Persistence\Repository\PluginManagerFactory::class
+            Persistence\Repository\PluginManager::class => Persistence\Repository\PluginManagerFactory::class,
+            Persistence\Metadata\PluginManager::class => Persistence\Metadata\PluginManagerFactory::class
         ],
         'aliases' => [
             Persistence\EventStore\EventStoreInterface::class => Persistence\EventStore\InMemoryEventStore::class

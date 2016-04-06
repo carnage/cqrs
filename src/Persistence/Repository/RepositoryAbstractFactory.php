@@ -7,6 +7,7 @@ use Carnage\Cqrs\Event\EventManagerInterface;
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Carnage\Cqrs\Persistence\Metadata\PluginManager as MetadataProviderManager;
 
 class RepositoryAbstractFactory implements AbstractFactoryInterface
 {
