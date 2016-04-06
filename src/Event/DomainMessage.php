@@ -86,7 +86,7 @@ final class DomainMessage
     {
         $instance = clone $this;
         $instance->metadata = array_merge($instance->metadata, $metadata);
-        return $metadata;
+        return $instance;
     }
 
     /**
