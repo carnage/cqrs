@@ -4,7 +4,6 @@ namespace Carnage\Cqrs\Persistence\Repository;
 
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception;
-use Zend\Session\Config\ConfigInterface;
 
 /**
  * Class PluginManager
@@ -12,7 +11,7 @@ use Zend\Session\Config\ConfigInterface;
  */
 class PluginManager extends AbstractPluginManager
 {
-    public function __construct(ConfigInterface $configuration = null)
+    public function __construct($configuration = null)
     {
         parent::__construct($configuration);
         $this->addAbstractFactory(new RepositoryAbstractFactory());
