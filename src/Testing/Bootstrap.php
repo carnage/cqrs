@@ -2,7 +2,7 @@
 
 namespace Carnage\Cqrs\Testing;
 
-use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager\Config as ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
 class Bootstrap

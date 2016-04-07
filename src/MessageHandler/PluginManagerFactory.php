@@ -4,7 +4,7 @@ namespace Carnage\Cqrs\MessageHandler;
 
 use Zend\Log\LoggerAwareInterface;
 use Zend\Mvc\Service\AbstractPluginManagerFactory;
-use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager\Config as ServiceManagerConfig;
 use Zend\ServiceManager\Exception;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
