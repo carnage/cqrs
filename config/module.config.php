@@ -30,6 +30,7 @@ return [
             Command\CommandBusInterface::class => Command\LazyCommandBusFactory::class,
             'EventListenerManager' => MessageHandler\PluginManagerFactory::class,
             'ProjectionManager' => MessageHandler\PluginManagerFactory::class,
+            'ProcessManagerManager' => MessageHandler\PluginManagerFactory::class,
             'EventSubscriberManager' => MessageHandler\PluginManagerFactory::class,
             Event\EventManagerInterface::class => Event\LazyEventManagerFactory::class,
             Persistence\Repository\PluginManager::class => Persistence\Repository\PluginManagerFactory::class,
@@ -63,13 +64,17 @@ return [
         'ProjectionManager' => [
             'config_key' => 'projections'
         ],
+        'ProcessManagerManager' => [
+            'config_key' => 'process_managers'
+        ],
         'EventListenerManager' => [
             'config_key' => 'event_listeners'
         ],
         'EventSubscriberManager' => [
             'aggregate_managers' => [
                 'ProjectionManager',
-                'EventListenerManager'
+                'EventListenerManager',
+                'ProcessManagerManager'
             ]
         ]
     ],

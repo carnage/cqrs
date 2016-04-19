@@ -9,9 +9,9 @@ use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
 use Carnage\Cqrs\Persistence\Metadata\MetadataProviderInterface;
 
 /**
- * Class Repository
+ * Class AggregateRepository
  */
-class Repository implements RepositoryInterface
+class AggregateRepository implements RepositoryInterface
 {
     /**
      * @var EventStoreInterface
@@ -32,13 +32,13 @@ class Repository implements RepositoryInterface
     private $metadataProviders;
 
     /**
-     * Repository constructor.
+     * AggregateRepository constructor.
      * @param $aggregateClassName
      * @param EventStoreInterface $eventStore
      * @param MessageBusInterface $eventManager
      * @param MetadataProviderInterface[] ...$metadataProviders
      */
-    public function __construct($aggregateClassName, EventStoreInterface $eventStore, MessageBusInterface $eventManager, MetadataProviderInterface ...$metadataProviders)
+    public function __construct(string $aggregateClassName, EventStoreInterface $eventStore, MessageBusInterface $eventManager, MetadataProviderInterface ...$metadataProviders)
     {
         $this->aggregateClassName = $aggregateClassName;
         $this->eventStore = $eventStore;
@@ -48,9 +48,9 @@ class Repository implements RepositoryInterface
 
     /**
      * @param $id
-     * @return mixed
+     * @return AggregateInterface
      */
-    public function load($id)
+    public function load($id): AggregateInterface
     {
         $events = $this->eventStore->load($this->aggregateClassName, $id);
         $aggregateClassName = $this->aggregateClassName;
@@ -74,7 +74,11 @@ class Repository implements RepositoryInterface
         }
     }
 
-    private function applyMetadata(DomainMessage ...$events)
+    /**
+     * @param \Carnage\Cqrs\Event\DomainMessage[] ...$events
+     * @return \Carnage\Cqrs\Event\DomainMessage[]
+     */
+    private function applyMetadata(DomainMessage ...$events): array
     {
         $metadata = [];
         foreach ($this->metadataProviders as $metadataProvider) {

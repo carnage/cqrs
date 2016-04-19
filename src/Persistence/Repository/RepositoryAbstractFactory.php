@@ -3,8 +3,10 @@
 namespace Carnage\Cqrs\Persistence\Repository;
 
 use Carnage\Cqrs\Aggregate\AggregateInterface;
+use Carnage\Cqrs\Command\CommandBusInterface;
 use Carnage\Cqrs\Event\EventManagerInterface;
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
+use Carnage\Cqrs\Process\ProcessInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Carnage\Cqrs\Persistence\Metadata\PluginManager as MetadataProviderManager;
@@ -41,7 +43,16 @@ class RepositoryAbstractFactory implements AbstractFactoryInterface
         /** @var ServiceLocatorInterface $serviceLocator */
         $serviceLocator = $serviceLocator->getServiceLocator();
 
-        return new Repository(
+        if (in_array(ProcessInterface::class, class_implements($requestedName))) {
+            return new ProcessRepository(
+                $requestedName,
+                $serviceLocator->get(EventStoreInterface::class),
+                $serviceLocator->get(CommandBusInterface::class),
+                ...$this->getMetadataProviders($serviceLocator)
+            );
+        }
+
+        return new AggregateRepository(
             $requestedName,
             $serviceLocator->get(EventStoreInterface::class),
             $serviceLocator->get(EventManagerInterface::class),
