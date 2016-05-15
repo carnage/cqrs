@@ -77,7 +77,7 @@ class ProcessRepository implements RepositoryInterface
             }
         }
     }
-    
+
     /**
      * @param \Carnage\Cqrs\Event\DomainMessage[] ...$events
      * @return \Carnage\Cqrs\Event\DomainMessage[]

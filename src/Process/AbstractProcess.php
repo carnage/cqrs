@@ -4,7 +4,7 @@ namespace Carnage\Cqrs\Process;
 use Carnage\Cqrs\Aggregate\AbstractAggregate;
 use Carnage\Cqrs\Command\CommandInterface;
 
-abstract class AbstractProcess extends AbstractAggregate
+abstract class AbstractProcess extends AbstractAggregate implements ProcessInterface
 {
     private $unresolvedCommands;
 
@@ -41,7 +41,7 @@ abstract class AbstractProcess extends AbstractAggregate
         $this->unresolvedCommands->detach($command);
     }
 
-    public function getUnresolvedCommands()
+    public function getOutstandingCommands()
     {
         return iterator_to_array($this->unresolvedCommands, false);
     }
