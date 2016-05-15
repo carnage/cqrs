@@ -2,6 +2,7 @@
 
 namespace Carnage\Cqrs\MessageHandler;
 
+use Carnage\Cqrs\Event\DomainMessage;
 use Carnage\Cqrs\MessageBus\MessageInterface;
 use Zend\Log\Logger;
 use Zend\Log\LoggerAwareInterface;
@@ -13,6 +14,11 @@ abstract class AbstractMessageHandler implements MessageHandlerInterface, Logger
      * @var LoggerInterface
      */
     private $logger = null;
+
+    public function handleDomainMessage(DomainMessage $message)
+    {
+        $this->handle($message->getEvent());
+    }
 
     public function handle(MessageInterface $message)
     {

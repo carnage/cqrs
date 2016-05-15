@@ -1,11 +1,12 @@
 <?php
 
 namespace Carnage\Cqrs\Event;
+use Carnage\Cqrs\MessageBus\MessageInterface;
 
 /**
  * Class DomainMessage
  */
-final class DomainMessage
+final class DomainMessage implements MessageInterface
 {
     /**
      * @var \DateTime
@@ -33,7 +34,7 @@ final class DomainMessage
     private $aggregateClass;
 
     /**
-     * @var event
+     * @var EventInterface
      */
     private $event;
 

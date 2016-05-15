@@ -3,6 +3,7 @@
 namespace Carnage\Cqrs\MessageBus;
 
 use Carnage\Cqrs\Command\CommandInterface;
+use Carnage\Cqrs\Event\DomainMessage;
 use Zend\Log\LoggerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -32,26 +33,21 @@ class LazyMessageBus implements MessageBusInterface
 
     public function dispatch(MessageInterface $message)
     {
-        $messageClass = get_class($message);
-        $this->log->info(sprintf('Dispatching %s', $messageClass));
-
-        if (isset($this->subscriptions[$messageClass])) {
-            $this->log->info(
-                sprintf('Found %d handlers for: %s', count($this->subscriptions[$messageClass]), $messageClass)
-            );
-
-            foreach ((array) $this->subscriptions[$messageClass] as $handler) {
-                $this->serviceLocator->get($handler)->handle($message);
-            }
+        if ($message instanceof DomainMessage) {
+            $messageClass = get_class($message->getEvent());
+        } else {
+            $messageClass = get_class($message);
         }
 
         $interfaces = class_implements($message);
+        array_unshift($interfaces, $messageClass);
+        
         foreach ($interfaces as $interface) {
-            $this->log->info(sprintf('Dispatching interface %s (from %s)', $interface, $messageClass));
+            $this->log->info(sprintf('Dispatching %s (from %s)', $interface, $messageClass));
             if (isset($this->subscriptions[$interface])) {
                 $this->log->info(
                     sprintf(
-                        'Found %d handlers for interface: %s (from %s)',
+                        'Found %d handlers for: %s (from %s)',
                         count($this->subscriptions[$interface]),
                         $interface,
                         $messageClass
@@ -59,7 +55,11 @@ class LazyMessageBus implements MessageBusInterface
                 );
 
                 foreach ((array) $this->subscriptions[$interface] as $handler) {
-                    $this->serviceLocator->get($handler)->handle($message);
+                    if ($message instanceof DomainMessage) {
+                        $this->serviceLocator->get($handler)->handleDomainMessage($message);
+                    } else {
+                        $this->serviceLocator->get($handler)->handle($message);
+                    }
                 }
             }
         }

@@ -70,7 +70,7 @@ class AggregateRepository implements RepositoryInterface
         $aggregate->committed();
 
         foreach ($uncommittedEvents as $event) {
-            $this->eventManager->dispatch($event->getEvent());
+            $this->eventManager->dispatch($event);
         }
     }
 
