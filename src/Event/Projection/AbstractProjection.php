@@ -6,7 +6,7 @@ use Carnage\Cqrs\MessageHandler\AbstractMethodNameMessageHandler;
 
 /**
  * Class AbstractProjection
- * @package Carnage\Cqrs\Event\Projection
+ * @package Carnage\Cqrs\Event\RebuildProjection
  * @deprecated
  */
 abstract class AbstractProjection extends AbstractMethodNameMessageHandler

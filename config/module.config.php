@@ -34,7 +34,9 @@ return [
             'EventSubscriberManager' => MessageHandler\PluginManagerFactory::class,
             Event\EventManagerInterface::class => Event\LazyEventManagerFactory::class,
             Persistence\Repository\PluginManager::class => Persistence\Repository\PluginManagerFactory::class,
-            Persistence\Metadata\PluginManager::class => Persistence\Metadata\PluginManagerFactory::class
+            Persistence\Metadata\PluginManager::class => Persistence\Metadata\PluginManagerFactory::class,
+            \Carnage\Cqrs\Cli\Command\RebuildProjection::class => \Carnage\Cqrs\Cli\Command\RebuildProjectionFactory::class,
+            'cqrs.cli' => \Carnage\Cqrs\Cli\CliFactory::class
         ],
         'aliases' => [
             Persistence\EventStore\EventStoreInterface::class => Persistence\EventStore\InMemoryEventStore::class
