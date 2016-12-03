@@ -54,7 +54,7 @@ class RebuildProjection extends Command
         );
 
         foreach ($subscriptions as $event => $listeners) {
-            foreach ($listeners as $listener) {
+            foreach ((array) $listeners as $listener) {
                 $instance->subscriptions[$listener][] = $event;
             }
         }
