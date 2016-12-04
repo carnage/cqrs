@@ -4,6 +4,11 @@ namespace Carnage\Cqrs\Testing;
 
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
 
+/**
+ * Class EventStore
+ * @package Carnage\Cqrs\Testing
+ * @deprecated The test case should be rewritten to utilise the new LoadEventsInterface and this class removed.
+ */
 class EventStore implements EventStoreInterface
 {
     private $store;
