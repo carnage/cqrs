@@ -3,9 +3,11 @@ Cqrs module for ZF2 taking heavy inspiration from broadway https://github.com/qa
 
 This module is a work in progress, check back later.
 
+It is suggested that you maintain your own fork until a tagged version of this library is release.
+
 # Licence
 
-Licenced under AGPL - the source code release clause ONLY applies to modifications of this library not to your application code that uses this library see: http://blog.mongodb.org/post/103832439/the-agpl
+Licenced under MIT 
 
 # TODO
 
