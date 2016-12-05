@@ -39,7 +39,7 @@ class LazyMessageBus implements MessageBusInterface
             $messageClass = get_class($message);
         }
 
-        $interfaces = class_implements($message);
+        $interfaces = class_implements($messageClass);
         array_unshift($interfaces, $messageClass);
         
         foreach ($interfaces as $interface) {

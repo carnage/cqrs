@@ -2,6 +2,7 @@
 
 namespace Carnage\Cqrs\Mvc\Controller\Plugin;
 
+use Carnage\Cqrs\Event\DomainMessage;
 use Carnage\Cqrs\Event\EventInterface;
 use Carnage\Cqrs\MessageBus\MessageInterface;
 use Carnage\Cqrs\MessageHandler\MessageHandlerInterface;
@@ -27,6 +28,12 @@ class Events extends AbstractPlugin implements MessageHandlerInterface
     {
         return $this->eventsByType[$eventType];
     }
+
+    public function handleDomainMessage(DomainMessage $message)
+    {
+        $this->handle($message->getEvent());
+    }
+
 
     public function handle(MessageInterface $event)
     {
