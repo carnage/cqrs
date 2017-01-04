@@ -86,15 +86,14 @@ return [
     'command_subscriptions' => [
     ],
     'event_listeners' => [
-        'factories' => [
-            \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class =>
-                \Carnage\Cqrs\Mvc\Controller\Plugin\EventsFactory::class
+        'invokables' =>[
+            \Carnage\Cqrs\Service\EventCatcher::class => \Carnage\Cqrs\Service\EventCatcher::class
         ]
     ],
     'projections' => [
     ],
     'domain_event_subscriptions' => [
-        Event\EventInterface::class => [\Carnage\Cqrs\Mvc\Controller\Plugin\Events::class]
+        Event\EventInterface::class => [\Carnage\Cqrs\Service\EventCatcher::class]
     ],
     'repositories' => [
         'abstract_factories' => [
@@ -102,8 +101,8 @@ return [
         ]
     ],
     'controller_plugins' => [
-        'invokables' => [
-            \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class => \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class
+        'factories' => [
+            \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class => \Carnage\Cqrs\Mvc\Controller\Plugin\EventsFactory::class
         ],
         'aliases' => [
             'Events' => \Carnage\Cqrs\Mvc\Controller\Plugin\Events::class
