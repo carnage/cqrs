@@ -16,6 +16,7 @@ class RebuildProjectionFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        $serviceLocator = $serviceLocator->getServiceLocator();
         $config = $serviceLocator->get('Config');
         return RebuildProjection::build(
             $config['projections'],
