@@ -54,7 +54,8 @@
         "zendframework/zendxml": "^1.0.1",
         "ircmaxell/random-lib": "^1.0.0",
         "doctrine/dbal": "^2.5.1",
-        "symfony/console": "^3.2"
+        "symfony/console": "^3.2",
+        "carnage/ZendfonyCli": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -64,5 +65,11 @@
     "require-dev": {
         "mockery/mockery": "~0.9.1",
         "phpunit/phpunit": "~4.1.3"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/carnage/ZendfonyCli"
+        }
+    ]
 }
