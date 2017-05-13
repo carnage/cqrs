@@ -55,7 +55,7 @@
         "ircmaxell/random-lib": "^1.0.0",
         "doctrine/dbal": "^2.5.1",
         "symfony/console": "^3.2",
-        "carnage/ZendfonyCli": "~0.1.0"
+        "carnage/zendfony-cli": "~0.1.0"
     },
     "autoload": {
         "psr-4": {
