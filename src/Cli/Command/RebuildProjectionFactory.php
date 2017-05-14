@@ -3,6 +3,7 @@
 namespace Carnage\Cqrs\Cli\Command;
 
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -17,12 +18,17 @@ class RebuildProjectionFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
+        return $this($serviceLocator, '');
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $config = $container->get('Config');
         return RebuildProjection::build(
             $config['projections'],
             $config['domain_event_subscriptions'],
-            $serviceLocator->get('ProjectionManager'),
-            $serviceLocator->get(EventStoreInterface::class)
+            $container->get('ProjectionManager'),
+            $container->get(EventStoreInterface::class)
         );
     }
 }

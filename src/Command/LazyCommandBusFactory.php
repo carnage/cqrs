@@ -2,6 +2,7 @@
 
 namespace Carnage\Cqrs\Command;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Carnage\Cqrs\MessageBus\LazyMessageBus;
@@ -16,10 +17,15 @@ class LazyCommandBusFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        return $this($serviceLocator, '');
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         return new LazyMessageBus(
-            $serviceLocator->get('CommandHandlerManager'),
-            $serviceLocator->get('Config')['command_subscriptions'],
-            $serviceLocator->get('Log\\CommandBusLog')
+            $container->get('CommandHandlerManager'),
+            $container->get('Config')['command_subscriptions'],
+            $container->get('Log\\CommandBusLog')
         );
     }
 }

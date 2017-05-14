@@ -3,6 +3,7 @@
 namespace Carnage\Cqrs\Mvc\Controller\Plugin;
 
 use Carnage\Cqrs\Service\EventCatcher;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -15,7 +16,12 @@ class EventsFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $eventCatcher = $serviceLocator->getServiceLocator()->get('EventListenerManager')->get(EventCatcher::class);
+        return $this($serviceLocator->getServiceLocator(), '');
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $eventCatcher = $container->get('EventListenerManager')->get(EventCatcher::class);
 
         return new Events($eventCatcher);
     }

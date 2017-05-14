@@ -3,6 +3,7 @@
 namespace Carnage\Cqrs\Event;
 
 use Carnage\Cqrs\MessageBus\LazyMessageBus;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -16,10 +17,15 @@ class LazyEventManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        return $this($serviceLocator, '');
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         return new LazyMessageBus(
-            $serviceLocator->get('EventSubscriberManager'),
-            $serviceLocator->get('Config')['domain_event_subscriptions'],
-            $serviceLocator->get('Log\\EventManagerLog')
+            $container->get('EventSubscriberManager'),
+            $container->get('Config')['domain_event_subscriptions'],
+            $container->get('Log\\EventManagerLog')
         );
     }
 }

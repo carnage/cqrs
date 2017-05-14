@@ -2,6 +2,7 @@
 
 namespace Carnage\Cqrs\MessageHandler;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -36,7 +37,17 @@ class AggregatingAbstractFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $this->getPluginManager($serviceLocator)->has($requestedName);
+        return $this->canCreate($serviceLocator->getServiceLocator(), $requestedName);
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @param $requestedName
+     * @return bool
+     */
+    public function canCreate(ContainerInterface $container, $requestedName)
+    {
+        return $this->getPluginManager($container)->has($requestedName);
     }
 
     /**
@@ -49,18 +60,28 @@ class AggregatingAbstractFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return $this->getPluginManager($serviceLocator)->get($requestedName);
+        return $this($serviceLocator->getServiceLocator(), $requestedName);
     }
 
     /**
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
+     * @param $requestedName
+     * @param array|null $options
+     * @return mixed
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        return $this->getPluginManager($container)->get($requestedName);
+    }
+
+    /**
+     * @param ContainerInterface $serviceLocator
      * @return ServiceLocatorInterface
      */
-    private function getPluginManager(ServiceLocatorInterface $serviceLocator)
+    private function getPluginManager(ContainerInterface $serviceLocator)
     {
         if ($this->pluginManager === null) {
-            $mainServiceLocator = $serviceLocator->getServiceLocator();
-            $this->pluginManager = $mainServiceLocator->get($this->pluginManagerName);
+            $this->pluginManager = $serviceLocator->get($this->pluginManagerName);
         }
 
         return $this->pluginManager;
