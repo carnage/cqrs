@@ -10,7 +10,11 @@ class InMemoryEventStore implements EventStoreInterface, LoadEventsInterface
 
     public function load($aggregateType, $id)
     {
-        return isset($this->store[$aggregateType][$id]) ? $this->store[$aggregateType][$id] : [];
+        if (!isset($this->store[$aggregateType][$id])) {
+            throw new NotFoundException();
+        }
+
+        return $this->store[$aggregateType][$id];
     }
 
     public function save($aggregateType, $id, $events)

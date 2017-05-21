@@ -5,6 +5,7 @@ namespace Carnage\Cqrs\Testing;
 use Carnage\Cqrs\Command\CommandBusInterface;
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
 use Carnage\Cqrs\Persistence\EventStore\InMemoryEventStore;
+use Carnage\Cqrs\Persistence\EventStore\LoadEventsInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -16,7 +17,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected $commandBus;
 
     /**
-     * @var EventStoreInterface
+     * @var EventStoreInterface|LoadEventsInterface
      */
     protected $eventStore;
 
@@ -24,8 +25,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         $serviceManager = Bootstrap::getServiceManager();
 
-        if (!($serviceManager->get(EventStoreInterface::class) instanceof EventStore)) {
-            $eventStore = new EventStore(new InMemoryEventStore());
+        if (!($serviceManager->get(EventStoreInterface::class) instanceof InMemoryEventStore)) {
+            $eventStore = new InMemoryEventStore();
 
             /** @var ServiceLocatorInterface $serviceManager */
             $serviceManager->setAllowOverride(true);
@@ -49,7 +50,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
             );
         };
 
-        $collection = new ArrayCollection($this->eventStore->getEvents());
+        $collection = new ArrayCollection($this->eventStore->loadAllEvents());
         $matching = $collection->filter($callback);
 
         $this->assertGreaterThan(0, $matching->count());
