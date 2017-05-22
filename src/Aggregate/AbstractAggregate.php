@@ -3,13 +3,14 @@ namespace Carnage\Cqrs\Aggregate;
 
 use Carnage\Cqrs\Event\DomainMessage;
 use Carnage\Cqrs\Event\EventInterface;
+use Carnage\Cqrs\MessageBus\MessageInterface;
 
 abstract class AbstractAggregate implements AggregateInterface
 {
     private $uncommittedEvents = [];
     private $version = 0;
 
-    private function getApplyMethod(EventInterface $event)
+    private function getApplyMethod(MessageInterface $event)
     {
         $classParts = explode('\\', get_class($event));
         return 'apply' . end($classParts);
@@ -30,7 +31,7 @@ abstract class AbstractAggregate implements AggregateInterface
         return $instance;
     }
 
-    public function apply(EventInterface $event, $new = true)
+    public function apply(MessageInterface $event, $new = true)
     {
         $this->version++;
 

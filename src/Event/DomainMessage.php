@@ -56,7 +56,7 @@ final class DomainMessage implements MessageInterface
      * @param integer $version
      * @param EventInterface $event
      */
-    private function __construct(\DateTime $time, $aggregateClass, $aggregateId, $version, EventInterface $event)
+    private function __construct(\DateTime $time, $aggregateClass, $aggregateId, $version, MessageInterface $event)
     {
         $this->time = clone $time; //make sure it's immutable
         $this->timeRecorded = new \DateTime(); //always recorded now.
@@ -115,7 +115,7 @@ final class DomainMessage implements MessageInterface
     }
 
     /**
-     * @return EventInterface
+     * @return MessageInterface
      */
     public function getEvent()
     {

@@ -4,12 +4,13 @@ namespace Carnage\Cqrs\Aggregate;
 
 use Carnage\Cqrs\Event\DomainMessage;
 use Carnage\Cqrs\Event\EventInterface;
+use Carnage\Cqrs\MessageBus\MessageInterface;
 
 interface AggregateInterface
 {
     public static function fromEvents(DomainMessage ...$events);
 
-    public function apply(EventInterface $event);
+    public function apply(MessageInterface $event);
 
     public function getUncommittedEvents();
 
