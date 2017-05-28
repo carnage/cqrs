@@ -6,6 +6,7 @@ use Carnage\Cqrs\Aggregate\AggregateInterface;
 use Carnage\Cqrs\Command\CommandBusInterface;
 use Carnage\Cqrs\Event\EventManagerInterface;
 use Carnage\Cqrs\Persistence\EventStore\EventStoreInterface;
+use Carnage\Cqrs\Process\NewProcessInterface;
 use Carnage\Cqrs\Process\ProcessInterface;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
@@ -67,6 +68,15 @@ class RepositoryAbstractFactory implements AbstractFactoryInterface
     {
         if (in_array(ProcessInterface::class, class_implements($requestedName))) {
             return new ProcessRepository(
+                $requestedName,
+                $container->get(EventStoreInterface::class),
+                $container->get(CommandBusInterface::class),
+                ...$this->getMetadataProviders($container)
+            );
+        }
+
+        if (in_array(NewProcessInterface::class, class_implements($requestedName))) {
+            return new AggregateRepository(
                 $requestedName,
                 $container->get(EventStoreInterface::class),
                 $container->get(CommandBusInterface::class),
